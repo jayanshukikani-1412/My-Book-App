@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 
 const BooksContext = createContext();
 
@@ -7,11 +7,11 @@ const Provider = ({ children }) => {
 
     const [books, setBooks] = useState([]);
 
-    const fetchBooks = async () => {
+    const fetchBooks = useCallback( async () => {
         const response = await axios.get('http://localhost:3001/books');
 
         setBooks(response.data);
-    };
+    },[]);
 
     const createBook = async (title) => {
         const response = await axios.post('http://localhost:3001/books', {
@@ -27,6 +27,8 @@ const Provider = ({ children }) => {
 
     const deleteBookById = async (id) => {
         const response = await axios.delete(`http://localhost:3001/books/${id}`);
+        console.log(response);
+        console.clear();
         const updatedBooks = books.filter((book) => {
             return book.id !== id;
         });
@@ -48,7 +50,7 @@ const Provider = ({ children }) => {
 
     const valueToShare = {
         books, 
-        fetchBooks, 
+        fetchBooks,
         createBook, 
         editBookById, 
         deleteBookById
