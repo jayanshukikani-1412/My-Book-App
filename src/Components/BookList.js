@@ -1,10 +1,9 @@
 import React from 'react';
-import { useContext } from 'react';
-import BooksContext from '../Context/booksContext';
 import BookShow from './BookShow';
+import useBooksContext from '../Hooks/useBooksContext';
 
 const BookList = () => {
-    const {books} = useContext(BooksContext);
+    const {books} = useBooksContext();
 
     const renderedBooks = books.map((book) => {
         return (
